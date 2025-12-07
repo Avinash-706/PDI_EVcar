@@ -24,7 +24,7 @@ A comprehensive car inspection form with progressive image upload, draft saving,
 
 ## Features
 
-- ✅ 14-step inspection form
+- ✅ 20-step inspection form
 - ✅ Progressive image upload (uploads immediately when selected)
 - ✅ Draft system with auto-save
 - ✅ PDF generation with all inspection data
