@@ -56,24 +56,8 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                 </div>
 
                 <div class="form-group">
-                    <label>Customer Phone Number</label>
-                    <input type="tel" name="customer_phone">
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Date <span class="required">*</span></label>
-                        <input type="date" name="inspection_date" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Time <span class="required">*</span></label>
-                        <input type="time" name="inspection_time" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Inspection Address <span class="required">*</span></label>
-                    <textarea name="inspection_address" rows="3" placeholder="Provide complete address..." required></textarea>
+                    <label>Customer Phone Number <span class="required">*</span></label>
+                    <input type="tel" name="customer_phone" required>
                 </div>
 
                 <div class="form-group">
@@ -92,20 +76,70 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                     <label>Car</label>
                     <input type="text" name="car">
                 </div>
+            </div>
 
+            <!-- STEP 2: PAYMENT TAKING -->
+            <div class="form-step" data-step="2">
+                <h2>⊙ Payment Taking</h2>
+                
                 <div class="form-group">
-                    <label>Lead Owner</label>
-                    <input type="text" name="lead_owner">
+                    <label>Payment <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="payment_taken" value="Yes" id="payment_yes" required> Yes
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="payment_taken" value="No" id="payment_no"> No
+                        </label>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Pending Amount</label>
-                    <input type="number" name="pending_amount" step="0.01">
+                <!-- Payment Details Section (shown only if Yes is selected) -->
+                <div id="payment_details_section" style="display: none;">
+                    <div class="form-group">
+                        <label>Payment Type <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="payment_type" value="Online" id="payment_online"> Online
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="payment_type" value="Cash" id="payment_cash"> Cash
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- QR Code and Payment Proof (shown only if Online is selected) -->
+                    <div id="online_payment_section" style="display: none;">
+                        <div class="form-group">
+                            <label>Payment QR Code</label>
+                            <div style="text-align: center; padding: 20px; background: #f5f5f5; border-radius: 8px; margin-bottom: 15px;">
+                                <img src="https://carinspectionexpert.com/wp-content/uploads/2025/04/WhatsApp-Image-2025-04-07-at-5.55.42-PM.jpeg" alt="Payment QR Code" style="max-width: 200px; height: auto;">
+                                <p style="margin-top: 10px; font-size: 14px; color: #666;">Scan to pay via UPI</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Payment Proof <span class="required">*</span></label>
+                            <div class="file-upload">
+                                <input type="file" name="payment_proof" id="paymentProof" accept="image/*">
+                                <label for="paymentProof" class="file-label">
+                                    <span class="camera-icon">📷</span>
+                                    <span class="file-text">Choose Image</span>
+                                </label>
+                                <div class="file-preview" id="paymentProofPreview"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Amount Paid <span class="required">*</span></label>
+                        <input type="number" name="amount_paid" step="0.01" min="0">
+                    </div>
                 </div>
             </div>
 
-            <!-- STEP 2: EXPERT DETAILS -->
-            <div class="form-step" data-step="2">
+            <!-- STEP 3: EXPERT DETAILS -->
+            <div class="form-step" data-step="3">
                 <h2>⊙ Expert Details</h2>
                 
                 <div class="form-group">
@@ -159,8 +193,8 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                 </div>
             </div>
 
-            <!-- STEP 3: CAR DETAILS -->
-            <div class="form-step" data-step="3">
+            <!-- STEP 4: CAR DETAILS -->
+            <div class="form-step" data-step="4">
                 <h2>⊙ Car Details</h2>
                 
                 <div class="form-group">
@@ -178,10 +212,7 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                     <input type="text" name="car_registered_state" required>
                 </div>
 
-                <div class="form-group">
-                    <label>Car Registered City</label>
-                    <input type="text" name="car_registered_city">
-                </div>
+
 
                 <div class="form-group">
                     <label>Car Color <span class="required">*</span></label>
@@ -233,146 +264,6 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                 </div>
             </div>
 
-            <!-- STEP 4: CAR DOCUMENTS -->
-            <div class="form-step" data-step="4">
-                <h2>⊙ Car Documents</h2>
-                
-                <div class="form-group">
-                    <label>Vehicle Insurance <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="vehicle_insurance" value="Available" required> Available
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="vehicle_insurance" value="Not Available"> Not Available
-                        </label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Form 22 <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="form_22" value="Available" required> Available
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="form_22" value="Not Available"> Not Available
-                        </label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Form 21 <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="form_21" value="Available" required> Available
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="form_21" value="Not Available"> Not Available
-                        </label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Registration Certificate <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="registration_certificate" value="Available" required> Available
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="registration_certificate" value="Not Available"> Not Available
-                        </label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Road Tax Receipt <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="road_tax_receipt" value="Available" required> Available
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="road_tax_receipt" value="Not Available"> Not Available
-                        </label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Warranty Card <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="warranty_card" value="Available" required> Available
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="warranty_card" value="Not Available"> Not Available
-                        </label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Owner's Manual <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="owners_manual" value="Available" required> Available
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="owners_manual" value="Not Available"> Not Available
-                        </label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Service Booklet <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="service_booklet" value="Available" required> Available
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="service_booklet" value="Not Available"> Not Available
-                        </label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Bank finance NOC <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="bank_finance_noc" value="Available" required> Available
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="bank_finance_noc" value="Not Available"> Not Available
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="bank_finance_noc" value="Not Required"> Not Required
-                        </label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Extended warranty <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="extended_warranty" value="Available" required> Available
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="extended_warranty" value="Not Available"> Not Available
-                        </label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Accessories Invoice <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="accessories_invoice" value="Available" required> Available
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="accessories_invoice" value="Not Available"> Not Available
-                        </label>
-                    </div>
-                </div>
-            </div>
-
             <!-- STEP 5: EXTERIOR BODY -->
             <div class="form-step" data-step="5">
                 <h2>⊙ Exterior Body</h2>
@@ -389,16 +280,12 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                     'driver_side_view_mirror_housing' => ['label' => 'Driver - Side View Mirror Housing', 'options' => ['Not Ok', 'Ok', 'Scratches']],
                     'driver_side_view_mirror_glass' => ['label' => 'Driver - Side View Mirror Glass', 'options' => ['Scratches', 'Damaged', 'Ok', 'Loose']],
                     'driver_indicator_front' => ['label' => 'Driver - Indicator Front', 'options' => ['Ok', 'Scratches', 'Damaged']],
-                    'driver_front_wheel_arch' => ['label' => 'Driver - Front Wheel Arch/ Fender Lining', 'options' => ['Damaged', 'Ok', 'Rusted']],
-                    'driver_front_mud_flap' => ['label' => 'Driver - Front Mud Flap', 'options' => ['Ok', 'Not Available', 'Damaged']],
-                    'driver_front_cladding' => ['label' => 'Driver - Front Cladding', 'options' => ['Not Available', 'Ok', 'Damaged', 'Scratches']],
+
                     'driver_roof_rail' => ['label' => 'Driver - Roof Rail', 'options' => ['Ok', 'Not Available', 'Damaged']],
                     'driver_door_sill' => ['label' => 'Driver - Door Sill', 'options' => ['Repainted', 'Major Scratches', 'Minor Scratches', "Major Dent's", 'Ok', 'Rusted', "Minor Dent's"]],
                     'driver_back_door' => ['label' => 'Driver -Back Door', 'options' => ["Minor Dent's", 'Repainted', 'Replaced', "Major Dent's", 'Major Scratches', 'Rusted', 'Ok', 'Panel Gaps', 'Not Opening Comfortable', 'Minor Scratches']],
                     'driver_back_door_window' => ['label' => 'Driver - Back Door Window', 'options' => ['Ok', 'Scratches', 'Damaged', 'Loose']],
-                    'driver_rear_cladding' => ['label' => 'Driver - Rear Cladding', 'options' => ['Damaged', 'Ok', 'Scratches', 'Not Applicable']],
-                    'driver_rear_wheel_arch' => ['label' => 'Driver - Rear Wheel Arch / Fender Lining', 'options' => ['Damaged', 'Ok', 'Rusted']],
-                    'driver_back_mud_flap' => ['label' => 'Driver - Back Mud Flap', 'options' => ['Not Available', 'Damaged', 'Ok']],
+
                     'driver_back_quarter_panel' => ['label' => 'Driver - Back Quarter Panel', 'options' => ['Ok', 'Repainted', "Minor Dent's", 'Major Scratches', "Major Dent's", 'Panel Gaps', 'Minor Scratches', 'Rusted']],
                     'driver_back_indicated' => ['label' => 'Driver - Back Indicated', 'options' => ['Ok', 'Scratches', 'Damaged']],
                     'passenger_back_indicated' => ['label' => 'Passenger - Back Indicated', 'options' => ['Damaged', 'Ok', 'Scratches']],
@@ -412,9 +299,7 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                     'boot_space_door' => ['label' => 'Boot Space Door/ Backdoor', 'options' => ['Damaged', 'Ok', 'Major Scratches', 'Replaced', "Minor Dent's", 'Repainted', 'Panel Gaps', "Major Dent's", 'Minor Scratches', 'Rusted']],
                     'passenger_back_door' => ['label' => 'Passenger - Back Door', 'options' => ['Panel Gaps', "Major Dent's", 'Damaged', "Minor Dent's", 'Minor Scratches', 'Repainted', 'Not Opening Comfortably', 'Replaced', 'Rusted', 'Ok', 'Major Scratches']],
                     'passenger_back_door_window' => ['label' => 'Passenger - Back Door Window', 'options' => ['Damaged', 'Loose', 'Ok', 'Scratches']],
-                    'passenger_rear_cladding' => ['label' => 'Passenger - Rear Cladding', 'options' => ['Damaged', 'Scratches', 'Not Applicable', 'Ok']],
-                    'passenger_rear_wheel_arch' => ['label' => 'Passenger - Rear Wheel Arch / Fender Lining', 'options' => ['Damaged', 'Rusted', 'Ok']],
-                    'passenger_back_mud_flap' => ['label' => 'Passenger - Back Mud flap', 'options' => ['Damaged', 'Ok', 'Not Available']],
+
                     'fuel_filter_flap' => ['label' => 'Charger Flap', 'options' => ['Scratches', 'Damaged', 'Ok', 'Loose']],
                     'passenger_door_sill' => ['label' => 'Passenger Door Sill', 'options' => ['Rusted', 'Major Scratches', 'Scratches', 'Repainted', 'Damaged', "Major Dent 's", 'Minor scratches', 'Ok', "Minor Dent's"]],
                     'passenger_back_quarter_panel' => ['label' => 'Passenger Back Quarter Panel', 'options' => ['Ok', 'Minor scratches', 'Panels Gaps', 'Rusted', 'Damaged', 'Major Scratches', "Minor Dent's", 'Scratches', "Major Dent 's", 'Repainted']],
@@ -425,9 +310,7 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                     'passenger_side_view_mirror_glass' => ['label' => 'Passenger Side View Mirror Glass', 'options' => ['Scratches', 'Ok', 'Loose', 'Damage']],
                     'passenger_front_indicator' => ['label' => 'Passenger Front Indicator', 'options' => ['Ok', 'Scratches', 'Damage']],
                     'passenger_front_fender' => ['label' => 'Passenger Front Fender', 'options' => ['Minor Scratches', 'Ok', "Minor Dent's", 'Damage', "Major Dent's", 'Scratches', 'Rusted', 'Major Scratches', 'Panel Gaps', 'Repainted']],
-                    'passenger_front_wheel_arch' => ['label' => 'Passenger - Front Wheel Arch / Fender Lining', 'options' => ['Damaged', 'Rusted', 'Ok']],
-                    'passenger_front_mud_flap' => ['label' => 'Passenger - Front Mud flap', 'options' => ['Ok', 'Damaged', 'Not Available']],
-                    'passenger_front_cladding' => ['label' => 'Passenger - Front Cladding', 'options' => ['Damaged', 'Scratches', 'Not Applicable', 'Ok']],
+
                     'windshields' => ['label' => 'Windshields', 'options' => ['Loose', 'Ok', 'Damaged', 'Scratches']],
                     'match_all_glasses_serial_number' => ['label' => 'Match all Glasses Serial Number', 'options' => ['Matching', 'Not Matching', 'Not Matching But Original']],
                     'front_bonnet_top' => ['label' => 'Front Bonnet Top', 'options' => ['Rusted', 'Replaced', 'Repainted', 'Minor Scratches', 'Ok', 'Panel Gaps', "Minor Dent's", 'Major Scratches', "Major Dent's"]],
@@ -569,6 +452,9 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                         <label class="radio-label">
                             <input type="radio" name="motor_coolant_level" value="Not Ok"> Not Ok
                         </label>
+                        <label class="radio-label">
+                            <input type="radio" name="motor_coolant_level" value="Not Checked"> Not Checked
+                        </label>
                     </div>
                 </div>
 
@@ -596,10 +482,7 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Motor Manufacturing Date</label>
-                    <input type="date" name="motor_manufacturing_date">
-                </div>
+
 
                 <div class="form-group">
                     <label>Cables <span class="required">*</span></label>
@@ -655,21 +538,12 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                     'match_chassis_no_plate' => ['label' => 'Match Chassis No Plate with the Real Body', 'options' => ['Matching', 'Not Matching', 'Not Able to Locate']],
                     'driver_strut_tower_apron' => ['label' => 'Driver side Strut Tower Apron', 'options' => ['Accidental', 'Rusted', 'ok']],
                     'passenger_strut_tower_apron' => ['label' => 'Passenger Strut Tower Apron', 'options' => ['Accidental', 'Rusted', 'ok']],
-                    'driver_side_front_rail' => ['label' => 'Driver side Front Rail', 'options' => ['Accidental', 'Rusted', 'Ok']],
-                    'passenger_side_front_rail' => ['label' => 'Passenger Side Front Rail', 'options' => ['Accidental', 'Rusted', 'Ok']],
+
                     'front_bonnet_underbody' => ['label' => 'Front Bonnet UnderBody', 'options' => ['Accidental', 'Rusted', 'Scratches', 'Repainted', 'ok']],
-                    'driver_side_a_pillar' => ['label' => 'Driver Side A Pillar', 'options' => ['Accidental', 'Rusted', 'Scratches', 'Repainted', 'ok']],
-                    'driver_side_b_pillar' => ['label' => 'Driver Side B Pillar', 'options' => ['Accidental', 'Rusted', 'Scratches', 'Repainted', 'ok']],
-                    'driver_side_c_pillar' => ['label' => 'Driver Side C Pillar', 'options' => ['Accidental', 'Rusted', 'Scratches', 'Repainted', 'ok']],
-                    'driver_side_d_pillar' => ['label' => 'Driver Side D Pillar', 'options' => ['Accidental', 'Rusted', 'Scratches', 'Repainted', 'ok']],
+
                     'driver_side_running_board' => ['label' => 'Driver Side Running Board', 'options' => ['Accidental', 'Rusted', 'Scratches', 'Repainted', 'ok']],
-                    'boot_lock_pillar' => ['label' => 'Boot Lock Pillar', 'options' => ['Accidental', 'Rusted', 'Scratches', 'Repainted', 'ok']],
-                    'boot_floor' => ['label' => 'Boot Floor', 'options' => ['Accidental', 'Rusted', 'Scratches', 'Repainted', 'ok']],
-                    'rear_sub_frame_z_axle' => ['label' => 'Rear Sub Frame / Z Axle', 'options' => ['Accidental', 'Scratches', 'Repainted', 'Rusted', 'Ok']],
-                    'passenger_side_d_pillar' => ['label' => 'Passenger Side D Pillar', 'options' => ['Accidental', 'Rusted', 'Scratches', 'Repainted', 'ok']],
-                    'passenger_side_c_pillar' => ['label' => 'Passenger Side C Pillar', 'options' => ['Accidental', 'Rusted', 'Scratches', 'Repainted', 'ok']],
-                    'passenger_side_b_pillar' => ['label' => 'Passenger Side B Pillar', 'options' => ['Accidental', 'Rusted', 'Scratches', 'Repainted', 'ok']],
-                    'passenger_side_a_pillar' => ['label' => 'Passenger Side A Pillar', 'options' => ['Accidental', 'Rusted', 'Scratches', 'Repainted', 'ok']],
+
+
                     'passenger_side_running_board' => ['label' => 'Passenger Side Running Board', 'options' => ['Accidental', 'Rusted', 'Scratches', 'Repainted', 'ok']],
                 ];
 
@@ -975,43 +849,7 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Multi Function Display <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="multi_function_display" value="Working" required> Working
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="multi_function_display" value="Not Working"> Not Working
-                        </label>
-                    </div>
-                </div>
 
-                <div class="form-group">
-                    <label>Multi Function Display Image (Car On) <span class="required">*</span></label>
-                    <small class="helper-text">In Car On</small>
-                    <div class="file-upload">
-                        <input type="file" name="multi_function_display_car_on" id="multiFunctionDisplayCarOn" accept="image/*" required>
-                        <label for="multiFunctionDisplayCarOn" class="file-label">
-                            <span class="camera-icon">📷</span>
-                            <span class="file-text">Choose Image</span>
-                        </label>
-                        <div class="file-preview" id="multiFunctionDisplayCarOnPreview"></div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Multi Function Display Image (Car Start) <span class="required">*</span></label>
-                    <small class="helper-text">In Car Start</small>
-                    <div class="file-upload">
-                        <input type="file" name="multi_function_display_car_start" id="multiFunctionDisplayCarStart" accept="image/*" required>
-                        <label for="multiFunctionDisplayCarStart" class="file-label">
-                            <span class="camera-icon">📷</span>
-                            <span class="file-text">Choose Image</span>
-                        </label>
-                        <div class="file-preview" id="multiFunctionDisplayCarStartPreview"></div>
-                    </div>
-                </div>
 
                 <div class="form-group">
                     <label>Car Horn <span class="required">*</span></label>
@@ -1635,21 +1473,35 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                 </div>
 
                 <div class="form-group">
+                    <label>AC Cool Image <span class="required">*</span></label>
+                    <div class="file-upload">
+                        <input type="file" name="ac_cool_image" id="acCoolImage" accept="image/*" required>
+                        <label for="acCoolImage" class="file-label">
+                            <span class="camera-icon">📷</span>
+                            <span class="file-text">Choose Image</span>
+                        </label>
+                        <div class="file-preview" id="acCoolImagePreview"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <label>AC Hot Temperature</label>
                     <input type="text" name="ac_hot_temperature" placeholder="Enter hot temperature...">
                 </div>
 
                 <div class="form-group">
-                    <label>Air Condition Image at Fan Max Speed</label>
+                    <label>AC Hot Image <span class="required">*</span></label>
                     <div class="file-upload">
-                        <input type="file" name="ac_image" id="acImage" accept="image/*">
-                        <label for="acImage" class="file-label">
+                        <input type="file" name="ac_hot_image" id="acHotImage" accept="image/*" required>
+                        <label for="acHotImage" class="file-label">
                             <span class="camera-icon">📷</span>
                             <span class="file-text">Choose Image</span>
                         </label>
-                        <div class="file-preview" id="acImagePreview"></div>
+                        <div class="file-preview" id="acHotImagePreview"></div>
                     </div>
                 </div>
+
+
 
                 <div class="form-group">
                     <label>Air Condition Direction Mode Working <span class="required">*</span></label>
@@ -1905,8 +1757,8 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                 </div>
 
                 <div class="form-group">
-                    <label>Driver Front Tyre Manufacturing Date</label>
-                    <input type="text" name="driver_front_tyre_date" placeholder="Enter manufacturing date...">
+                    <label>Driver Front Tyre Manufacturing Date <span class="required">*</span></label>
+                    <input type="text" name="driver_front_tyre_date" placeholder="Enter manufacturing date..." required>
                 </div>
 
                 <div class="form-group">
@@ -1949,8 +1801,8 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                 </div>
 
                 <div class="form-group">
-                    <label>Driver Back Tyre Manufacturing Date</label>
-                    <input type="text" name="driver_back_tyre_date" placeholder="Enter manufacturing date...">
+                    <label>Driver Back Tyre Manufacturing Date <span class="required">*</span></label>
+                    <input type="text" name="driver_back_tyre_date" placeholder="Enter manufacturing date..." required>
                 </div>
 
                 <div class="form-group">
@@ -1993,8 +1845,8 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                 </div>
 
                 <div class="form-group">
-                    <label>Passenger Back Tyre Manufacturing Date</label>
-                    <input type="text" name="passenger_back_tyre_date" placeholder="Enter manufacturing date...">
+                    <label>Passenger Back Tyre Manufacturing Date <span class="required">*</span></label>
+                    <input type="text" name="passenger_back_tyre_date" placeholder="Enter manufacturing date..." required>
                 </div>
 
                 <div class="form-group">
@@ -2037,8 +1889,8 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                 </div>
 
                 <div class="form-group">
-                    <label>Passenger Front Tyre Manufacturing Date</label>
-                    <input type="text" name="passenger_front_tyre_date" placeholder="Enter manufacturing date...">
+                    <label>Passenger Front Tyre Manufacturing Date <span class="required">*</span></label>
+                    <input type="text" name="passenger_front_tyre_date" placeholder="Enter manufacturing date..." required>
                 </div>
 
                 <div class="form-group">
@@ -2084,8 +1936,8 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                 </div>
 
                 <div class="form-group" id="stepney_date_container">
-                    <label>Stepney Tyre Manufacturing Date</label>
-                    <input type="text" name="stepney_tyre_date" id="stepneyTyreDate" placeholder="Enter manufacturing date...">
+                    <label>Stepney Tyre Manufacturing Date <span class="required">*</span></label>
+                    <input type="text" name="stepney_tyre_date" id="stepneyTyreDate" placeholder="Enter manufacturing date..." required>
                 </div>
 
                 <div class="form-group" id="stepney_shape_container">
@@ -2147,23 +1999,7 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Brake Calipers Front Driver Side <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="brake_calipers_front_driver" value="Ok" required> Ok
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="brake_calipers_front_driver" value="Not Ok"> Not Ok
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="brake_calipers_front_driver" value="Not Able To Check"> Not Able To Check
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="brake_calipers_front_driver" value="Not Applicable"> Not Applicable
-                        </label>
-                    </div>
-                </div>
+
 
                 <div class="form-group">
                     <label>Brake Pads Front Passenger Side <span class="required">*</span></label>
@@ -2195,23 +2031,7 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Brake Calipers Front Passenger Side <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="brake_calipers_front_passenger" value="Ok" required> Ok
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="brake_calipers_front_passenger" value="Not Ok"> Not Ok
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="brake_calipers_front_passenger" value="Not Able To Check"> Not Able To Check
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="brake_calipers_front_passenger" value="Not Applicable"> Not Applicable
-                        </label>
-                    </div>
-                </div>
+
 
                 <div class="form-group">
                     <label>Brake Pads Back Passenger Side <span class="required">*</span></label>
@@ -2243,23 +2063,7 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Brake Calipers Back Passenger Side <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="brake_calipers_back_passenger" value="Ok" required> Ok
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="brake_calipers_back_passenger" value="Not Ok"> Not Ok
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="brake_calipers_back_passenger" value="Not Able To Check"> Not Able To Check
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="brake_calipers_back_passenger" value="Not Applicable"> Not Applicable
-                        </label>
-                    </div>
-                </div>
+
 
                 <div class="form-group">
                     <label>Brake Pads Back Driver Side <span class="required">*</span></label>
@@ -2291,23 +2095,7 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Brake Calipers Back Driver Side <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="brake_calipers_back_driver" value="Ok" required> Ok
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="brake_calipers_back_driver" value="Not Ok"> Not Ok
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="brake_calipers_back_driver" value="Not Able To Check"> Not Able To Check
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="brake_calipers_back_driver" value="Not Applicable"> Not Applicable
-                        </label>
-                    </div>
-                </div>
+
 
                 <div class="form-group">
                     <label>Brake Fluid Reservoir <span class="required">*</span></label>
@@ -2630,10 +2418,10 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" id="toolKitImageGroup" style="display: none;">
                     <label>Tool Kit Image <span class="required">*</span></label>
                     <div class="file-upload">
-                        <input type="file" name="tool_kit_image" id="toolKitImage" accept="image/*" required>
+                        <input type="file" name="tool_kit_image" id="toolKitImage" accept="image/*">
                         <label for="toolKitImage" class="file-label">
                             <span class="camera-icon">📷</span>
                             <span class="file-text">Choose Image</span>
@@ -2719,77 +2507,67 @@ require_once __DIR__ . '/drafts/auto-cleanup.php';
                 </div>
 
                 <div class="form-group">
-                    <label>Photo of Issues</label>
+                    <label>Issue Photo 1</label>
                     <div class="file-upload">
-                        <input type="file" name="photo_of_issues" id="photoOfIssues" accept="image/*">
-                        <label for="photoOfIssues" class="file-label">
+                        <input type="file" name="issue_photo_1" id="issuePhoto1" accept="image/*">
+                        <label for="issuePhoto1" class="file-label">
                             <span class="camera-icon">📷</span>
                             <span class="file-text">Choose Image</span>
                         </label>
-                        <div class="file-preview" id="photoOfIssuesPreview"></div>
+                        <div class="file-preview" id="issuePhoto1Preview"></div>
                     </div>
                 </div>
-            </div>
 
-            <!-- STEP 20: PAYMENT TAKING -->
-            <div class="form-step" data-step="20">
-                <h2>⊙ Payment Taking</h2>
-                
                 <div class="form-group">
-                    <label>Payment <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="payment_taken" value="Yes" id="payment_yes" required> Yes
+                    <label>Issue Photo 2</label>
+                    <div class="file-upload">
+                        <input type="file" name="issue_photo_2" id="issuePhoto2" accept="image/*">
+                        <label for="issuePhoto2" class="file-label">
+                            <span class="camera-icon">📷</span>
+                            <span class="file-text">Choose Image</span>
                         </label>
-                        <label class="radio-label">
-                            <input type="radio" name="payment_taken" value="No" id="payment_no"> No
-                        </label>
+                        <div class="file-preview" id="issuePhoto2Preview"></div>
                     </div>
                 </div>
 
-                <!-- Payment Details Section (shown only if Yes is selected) -->
-                <div id="payment_details_section" style="display: none;">
-                    <div class="form-group">
-                        <label>Payment Type <span class="required">*</span></label>
-                        <div class="radio-group">
-                            <label class="radio-label">
-                                <input type="radio" name="payment_type" value="Online" id="payment_online"> Online
-                            </label>
-                            <label class="radio-label">
-                                <input type="radio" name="payment_type" value="Cash" id="payment_cash"> Cash
-                            </label>
-                        </div>
+                <div class="form-group">
+                    <label>Issue Photo 3</label>
+                    <div class="file-upload">
+                        <input type="file" name="issue_photo_3" id="issuePhoto3" accept="image/*">
+                        <label for="issuePhoto3" class="file-label">
+                            <span class="camera-icon">📷</span>
+                            <span class="file-text">Choose Image</span>
+                        </label>
+                        <div class="file-preview" id="issuePhoto3Preview"></div>
                     </div>
+                </div>
 
-                    <!-- QR Code and Payment Proof (shown only if Online is selected) -->
-                    <div id="online_payment_section" style="display: none;">
-                        <div class="form-group">
-                            <label>Payment QR Code</label>
-                            <div style="text-align: center; padding: 20px; background: #f5f5f5; border-radius: 8px; margin-bottom: 15px;">
-                                <img src="https://carinspectionexpert.com/wp-content/uploads/2025/04/WhatsApp-Image-2025-04-07-at-5.55.42-PM.jpeg" alt="Payment QR Code" style="max-width: 200px; height: auto;">
-                                <p style="margin-top: 10px; font-size: 14px; color: #666;">Scan to pay via UPI</p>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Payment Proof <span class="required">*</span></label>
-                            <div class="file-upload">
-                                <input type="file" name="payment_proof" id="paymentProof" accept="image/*">
-                                <label for="paymentProof" class="file-label">
-                                    <span class="camera-icon">📷</span>
-                                    <span class="file-text">Choose Image</span>
-                                </label>
-                                <div class="file-preview" id="paymentProofPreview"></div>
-                            </div>
-                        </div>
+                <div class="form-group">
+                    <label>Issue Photo 4</label>
+                    <div class="file-upload">
+                        <input type="file" name="issue_photo_4" id="issuePhoto4" accept="image/*">
+                        <label for="issuePhoto4" class="file-label">
+                            <span class="camera-icon">📷</span>
+                            <span class="file-text">Choose Image</span>
+                        </label>
+                        <div class="file-preview" id="issuePhoto4Preview"></div>
                     </div>
+                </div>
 
-                    <div class="form-group">
-                        <label>Amount Paid <span class="required">*</span></label>
-                        <input type="number" name="amount_paid" step="0.01" min="0">
+                <div class="form-group">
+                    <label>Issue Photo 5</label>
+                    <div class="file-upload">
+                        <input type="file" name="issue_photo_5" id="issuePhoto5" accept="image/*">
+                        <label for="issuePhoto5" class="file-label">
+                            <span class="camera-icon">📷</span>
+                            <span class="file-text">Choose Image</span>
+                        </label>
+                        <div class="file-preview" id="issuePhoto5Preview"></div>
                     </div>
                 </div>
             </div>
+
+
 
 
             <!-- Navigation Buttons -->

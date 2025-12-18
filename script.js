@@ -1,6 +1,6 @@
 // Multi-step form navigation
 let currentStep = 1;
-const totalSteps = 20;
+const totalSteps = 19;
 
 // Progressive upload tracking
 let uploadedFiles = {};

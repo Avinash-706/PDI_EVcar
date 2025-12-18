@@ -88,24 +88,37 @@ function generateCompleteHTML($data) {
     $html .= generateField('Inspection Expert City', $data['expert_city'] ?? '', true);
     $html .= generateField('Customer Name', $data['customer_name'] ?? '', true);
     
-    // Optional field
-    $html .= generateField('Customer Phone Number', $data['customer_phone'] ?? '', false);
+    $html .= generateField('Customer Phone Number', $data['customer_phone'] ?? '', true);
     
-    // Mandatory fields continued
-    $html .= generateField('Date', $data['inspection_date'] ?? '', true);
-    $html .= generateField('Time', $data['inspection_time'] ?? '', true);
-    $html .= generateField('Inspection Address', $data['inspection_address'] ?? '', true);
     $html .= generateField('OBD Scanning', $data['obd_scanning'] ?? '', true);
     
     // Optional fields
     $html .= generateField('Car', $data['car'] ?? '', false);
-    $html .= generateField('Lead Owner', $data['lead_owner'] ?? '', false);
-    $html .= generateField('Pending Amount', $data['pending_amount'] ?? '', false);
     
     // ========================================================================
-    // STEP 2: Expert Details
+    // STEP 2: Payment Taking
     // ========================================================================
-    $html .= generateStepHeader(2, 'Expert Details');
+    $html .= generateStepHeader(2, 'Payment Taking');
+    
+    $html .= generateField('Payment', $data['payment_taken'] ?? '', true);
+    
+    // Show payment details if payment was taken
+    if (($data['payment_taken'] ?? '') === 'Yes') {
+        $html .= generateField('Payment Type', $data['payment_type'] ?? '', true);
+        $html .= generateField('Amount Paid', $data['amount_paid'] ?? '', true);
+        
+        // Show payment proof image if online payment
+        if (($data['payment_type'] ?? '') === 'Online') {
+            $images = [];
+            $images[] = generateImage('Payment Proof', $data['payment_proof_path'] ?? '', true);
+            $html .= generateImageGrid($images);
+        }
+    }
+    
+    // ========================================================================
+    // STEP 3: Expert Details
+    // ========================================================================
+    $html .= generateStepHeader(3, 'Expert Details');
     
     $html .= generateField('Inspection 45 Minutes Delayed?', $data['inspection_delayed'] ?? '', true);
     $html .= generateField('Date', $data['expert_date'] ?? '', false);
@@ -120,17 +133,16 @@ function generateCompleteHTML($data) {
     $html .= generateImageGrid($images);
     
     // ========================================================================
-    // STEP 3: Car Details
+    // STEP 4: Car Details
     // ========================================================================
-    $html .= generateStepHeader(3, 'Car Details');
+    $html .= generateStepHeader(4, 'Car Details');
     
     // Mandatory fields
     $html .= generateField('Car Company', $data['car_company'] ?? '', true);
     $html .= generateField('Car Variant', $data['car_variant'] ?? '', true);
     $html .= generateField('Car Registered State', $data['car_registered_state'] ?? '', true);
     
-    // Optional field
-    $html .= generateField('Car Registered City', $data['car_registered_city'] ?? '', false);
+
     
     // Mandatory fields continued
     $html .= generateField('Car Color', $data['car_colour'] ?? '', true);
@@ -146,23 +158,6 @@ function generateCompleteHTML($data) {
     $html .= generateImageGrid($images);
     
     // ========================================================================
-    // STEP 4: Car Documents
-    // ========================================================================
-    $html .= generateStepHeader(4, 'Car Documents');
-    
-    $html .= generateField('Vehicle Insurance', $data['vehicle_insurance'] ?? '', true);
-    $html .= generateField('Form 22', $data['form_22'] ?? '', true);
-    $html .= generateField('Form 21', $data['form_21'] ?? '', true);
-    $html .= generateField('Registration Certificate', $data['registration_certificate'] ?? '', true);
-    $html .= generateField('Road Tax Receipt', $data['road_tax_receipt'] ?? '', true);
-    $html .= generateField('Warranty Card', $data['warranty_card'] ?? '', true);
-    $html .= generateField('Owner\'s Manual', $data['owners_manual'] ?? '', true);
-    $html .= generateField('Service Booklet', $data['service_booklet'] ?? '', true);
-    $html .= generateField('Bank finance NOC', $data['bank_finance_noc'] ?? '', true);
-    $html .= generateField('Extended warranty', $data['extended_warranty'] ?? '', true);
-    $html .= generateField('Accessories Invoice', $data['accessories_invoice'] ?? '', true);
-    
-    // ========================================================================
     // STEP 5: Exterior Body (60 fields with conditional images)
     // ========================================================================
     $html .= generateStepHeader(5, 'Exterior Body');
@@ -170,16 +165,14 @@ function generateCompleteHTML($data) {
     // Define all 60 exterior body fields
     $exteriorFields = [
         'driver_front_door', 'driver_front_fender', 'driver_front_door_window', 'driver_side_view_mirror_housing',
-        'driver_side_view_mirror_glass', 'driver_indicator_front', 'driver_front_wheel_arch', 'driver_front_mud_flap',
-        'driver_front_cladding', 'driver_roof_rail', 'driver_door_sill', 'driver_back_door', 'driver_back_door_window',
-        'driver_rear_cladding', 'driver_rear_wheel_arch', 'driver_back_mud_flap', 'driver_back_quarter_panel',
+        'driver_side_view_mirror_glass', 'driver_indicator_front', 'driver_roof_rail', 'driver_door_sill', 'driver_back_door', 'driver_back_door_window',
+        'driver_back_quarter_panel',
         'driver_back_indicated', 'passenger_back_indicated', 'rear_windshield', 'connected_taillights',
         'driver_taillights', 'passenger_taillights', 'rear_number_plate', 'front_bumper', 'rear_bumper', 
-        'boot_space_door', 'passenger_back_door', 'passenger_back_door_window', 'passenger_rear_cladding',
-        'passenger_rear_wheel_arch', 'passenger_back_mud_flap', 'fuel_filter_flap', 'passenger_door_sill',
+        'boot_space_door', 'passenger_back_door', 'passenger_back_door_window', 'fuel_filter_flap', 'passenger_door_sill',
         'passenger_back_quarter_panel', 'passenger_roof_rail', 'passenger_front_door', 'passenger_front_door_window',
         'passenger_side_view_mirror_housing', 'passenger_side_view_mirror_glass', 'passenger_front_indicator',
-        'passenger_front_fender', 'passenger_front_wheel_arch', 'passenger_front_mud_flap', 'passenger_front_cladding',
+        'passenger_front_fender',
         'windshields', 'match_all_glasses_serial_number', 'front_bonnet_top', 'front_grill', 'fog_lights', 
         'driver_headlight', 'passenger_headlight', 'front_number_plate', 'car_roof_outside'
     ];
@@ -191,16 +184,12 @@ function generateCompleteHTML($data) {
         'driver_side_view_mirror_housing' => 'Driver - Side View Mirror Housing',
         'driver_side_view_mirror_glass' => 'Driver - Side View Mirror Glass',
         'driver_indicator_front' => 'Driver - Indicator Front',
-        'driver_front_wheel_arch' => 'Driver - Front Wheel Arch/ Fender Lining',
-        'driver_front_mud_flap' => 'Driver - Front Mud Flap',
-        'driver_front_cladding' => 'Driver - Front Cladding',
+
         'driver_roof_rail' => 'Driver - Roof Rail',
         'driver_door_sill' => 'Driver - Door Sill',
         'driver_back_door' => 'Driver -Back Door',
         'driver_back_door_window' => 'Driver - Back Door Window',
-        'driver_rear_cladding' => 'Driver - Rear Cladding',
-        'driver_rear_wheel_arch' => 'Driver - Rear Wheel Arch / Fender Lining',
-        'driver_back_mud_flap' => 'Driver - Back Mud Flap',
+
         'driver_back_quarter_panel' => 'Driver - Back Quarter Panel',
         'driver_back_indicated' => 'Driver - Back Indicated',
         'passenger_back_indicated' => 'Passenger - Back Indicated',
@@ -232,13 +221,9 @@ function generateCompleteHTML($data) {
         'front_number_plate' => 'Front Number Plate',
         'car_roof_outside' => 'Car Roof Outside',
         'front_bumper' => 'Front Bumper',
-        'passenger_rear_wheel_arch' => 'Passenger - Rear Wheel Arch / Fender Lining',
-        'passenger_rear_cladding' => 'Passenger - Rear Cladding',
-        'passenger_back_mud_flap' => 'Passenger - Back Mud flap',
+
         'passenger_roof_rail' => 'Passenger - Roof Rail',
-        'passenger_front_mud_flap' => 'Passenger - Front Mud flap',
-        'passenger_front_wheel_arch' => 'Passenger - Front Wheel Arch / Fender Lining',
-        'passenger_front_cladding' => 'Passenger - Front Cladding',
+
     ];
     
     // Generate fields and images for each exterior body part
@@ -264,7 +249,7 @@ function generateCompleteHTML($data) {
     }
     
     // ========================================================================
-    // STEP 6: Battery, Charger and Hood
+    // STEP 7: Battery, Charger and Hood
     // ========================================================================
     $html .= generateStepHeader(6, 'Battery, Charger and Hood');
     
@@ -275,7 +260,7 @@ function generateCompleteHTML($data) {
     $html .= generateField('Motor Coolant Level', $data['motor_coolant_level'] ?? '', true);
     $html .= generateField('Motor', $data['motor'] ?? '', true);
     $html .= generateField('Abnormal Motor Noise', $data['abnormal_motor_noise'] ?? '', true);
-    $html .= generateField('Motor Manufacturing Date', $data['motor_manufacturing_date'] ?? '', false);
+
     $html .= generateField('Cables', $data['cables'] ?? '', true);
     $html .= generateField('Fuse Box', $data['fuse_box'] ?? '', true);
     $html .= generateField('Auxilliary Battery', $data['auxilliary_battery'] ?? '', true);
@@ -287,7 +272,7 @@ function generateCompleteHTML($data) {
     $html .= generateImageGrid($images);
     
     // ========================================================================
-    // STEP 7: Body Frame Accidental Checklist
+    // STEP 8: Body Frame Accidental Checklist
     // ========================================================================
     $html .= generateStepHeader(7, 'Body Frame Accidental Checklist');
     
@@ -297,21 +282,12 @@ function generateCompleteHTML($data) {
         'match_chassis_no_plate' => 'Match Chassis No Plate with the Real Body',
         'driver_strut_tower_apron' => 'Driver side Strut Tower Apron',
         'passenger_strut_tower_apron' => 'Passenger Strut Tower Apron',
-        'driver_side_front_rail' => 'Driver side Front Rail',
-        'passenger_side_front_rail' => 'Passenger Side Front Rail',
+
         'front_bonnet_underbody' => 'Front Bonnet UnderBody',
-        'driver_side_a_pillar' => 'Driver Side A Pillar',
-        'driver_side_b_pillar' => 'Driver Side B Pillar',
-        'driver_side_c_pillar' => 'Driver Side C Pillar',
-        'driver_side_d_pillar' => 'Driver Side D Pillar',
+
         'driver_side_running_board' => 'Driver Side Running Board',
-        'boot_lock_pillar' => 'Boot Lock Pillar',
-        'boot_floor' => 'Boot Floor',
-        'rear_sub_frame_z_axle' => 'Rear Sub Frame / Z Axle',
-        'passenger_side_d_pillar' => 'Passenger Side D Pillar',
-        'passenger_side_c_pillar' => 'Passenger Side C Pillar',
-        'passenger_side_b_pillar' => 'Passenger Side B Pillar',
-        'passenger_side_a_pillar' => 'Passenger Side A Pillar',
+
+
         'passenger_side_running_board' => 'Passenger Side Running Board',
     ];
     
@@ -335,7 +311,7 @@ function generateCompleteHTML($data) {
     }
     
     // ========================================================================
-    // STEP 8: Electrical and Interior
+    // STEP 9: Electrical and Interior
     // ========================================================================
     $html .= generateStepHeader(8, 'Electrical and Interior');
     
@@ -359,13 +335,7 @@ function generateCompleteHTML($data) {
     $html .= generateField('Steering Mountain Controls', $data['steering_mountain_controls'] ?? '', true);
     $html .= generateField('Back Camera', $data['back_camera'] ?? '', true);
     $html .= generateField('Reverse Parking Sensor', $data['reverse_parking_sensor'] ?? '', true);
-    $html .= generateField('Multi Function Display', $data['multi_function_display'] ?? '', true);
-    
-    // Multi Function Display Images
-    $images = [];
-    $images[] = generateImage('Multi Function Display (Car On)', $data['multi_function_display_car_on_path'] ?? '', true);
-    $images[] = generateImage('Multi Function Display (Car Start)', $data['multi_function_display_car_start_path'] ?? '', true);
-    $html .= generateImageGrid($images);
+
     
     $html .= generateField('Car Horn', $data['car_horn'] ?? '', true);
     $html .= generateField('Entertainment System', $data['entertainment_system'] ?? '', true);
@@ -412,7 +382,7 @@ function generateCompleteHTML($data) {
     $html .= generateField('Check All Buttons', $data['check_all_buttons'] ?? '', false);
     
     // ========================================================================
-    // STEP 9: Warning Lights
+    // STEP 10: Warning Lights
     // ========================================================================
     $html .= generateStepHeader(9, 'Warning Lights');
     
@@ -426,28 +396,37 @@ function generateCompleteHTML($data) {
     $html .= generateField('Any Other Lights Found?', $data['any_other_lights_found'] ?? '', true);
     
     // ========================================================================
-    // STEP 10: Air Conditioning
+    // STEP 11: Air Conditioning
     // ========================================================================
     $html .= generateStepHeader(10, 'Air Conditioning');
     
     $html .= generateField('Air Conditioning Turning On', $data['ac_turning_on'] ?? '', true);
     $html .= generateField('AC Cool Temperature', $data['ac_cool_temperature'] ?? '', false);
+    
+    // AC Cool Image (if uploaded)
+    if (!empty($data['ac_cool_image_path'])) {
+        $images = [];
+        $images[] = generateImage('AC Cool Image', $data['ac_cool_image_path'] ?? '', false);
+        $html .= generateImageGrid($images);
+    }
+    
     $html .= generateField('AC Hot Temperature', $data['ac_hot_temperature'] ?? '', false);
+    
+    // AC Hot Image (if uploaded)
+    if (!empty($data['ac_hot_image_path'])) {
+        $images = [];
+        $images[] = generateImage('AC Hot Image', $data['ac_hot_image_path'] ?? '', false);
+        $html .= generateImageGrid($images);
+    }
     $html .= generateField('Air Condition Direction Mode Working', $data['ac_direction_mode'] ?? '', true);
     $html .= generateField('De Fogger Front Vent Working', $data['defogger_front_vent'] ?? '', true);
     $html .= generateField('De Fogger rear Vent Working', $data['defogger_rear_vent'] ?? '', true);
     $html .= generateField('Air Conditioning All Vents', $data['ac_all_vents'] ?? '', true);
     $html .= generateField('AC Abnormal Vibration', $data['ac_abnormal_vibration'] ?? '', true);
-    
-    // AC Image (if uploaded)
-    if (!empty($data['ac_image_path'])) {
-        $images = [];
-        $images[] = generateImage('Air Condition Image at Fan Max Speed', $data['ac_image_path'] ?? '', false);
-        $html .= generateImageGrid($images);
-    }
+
     
     // ========================================================================
-    // STEP 11: Brakes & Steering
+    // STEP 12: Brakes & Steering
     // ========================================================================
     $html .= generateStepHeader(11, 'Brakes & Steering');
     
@@ -460,7 +439,7 @@ function generateCompleteHTML($data) {
     $html .= generateField('Steering Vibration', $data['steering_vibration'] ?? '', true);
     
     // ========================================================================
-    // STEP 12: Axle
+    // STEP 13: Axle
     // ========================================================================
     $html .= generateStepHeader(12, 'Axle');
     
@@ -469,7 +448,7 @@ function generateCompleteHTML($data) {
     $html .= generateField('Abnormal Noise', $data['abnormal_noise'] ?? '', true);
     
     // ========================================================================
-    // STEP 13: Tyres
+    // STEP 14: Tyres
     // ========================================================================
     $html .= generateStepHeader(13, 'Tyres');
     
@@ -479,22 +458,22 @@ function generateCompleteHTML($data) {
     
     // Driver Front Tyre
     $html .= generateField('Driver Front Tyre Depth Check', $data['driver_front_tyre_depth_check'] ?? '', true);
-    $html .= generateField('Driver Front Tyre Manufacturing Date', $data['driver_front_tyre_date'] ?? '', false);
+    $html .= generateField('Driver Front Tyre Manufacturing Date', $data['driver_front_tyre_date'] ?? '', true);
     $html .= generateField('Driver Front Tyre Shape', $data['driver_front_tyre_shape'] ?? '', true);
     
     // Driver Back Tyre
     $html .= generateField('Driver Back Tyre Depth Check', $data['driver_back_tyre_depth_check'] ?? '', true);
-    $html .= generateField('Driver Back Tyre Manufacturing Date', $data['driver_back_tyre_date'] ?? '', false);
+    $html .= generateField('Driver Back Tyre Manufacturing Date', $data['driver_back_tyre_date'] ?? '', true);
     $html .= generateField('Driver Back Tyre Shape', $data['driver_back_tyre_shape'] ?? '', true);
     
     // Passenger Back Tyre
     $html .= generateField('Passenger Back Tyre Depth Check', $data['passenger_back_tyre_depth_check'] ?? '', true);
-    $html .= generateField('Passenger Back Tyre Manufacturing Date', $data['passenger_back_tyre_date'] ?? '', false);
+    $html .= generateField('Passenger Back Tyre Manufacturing Date', $data['passenger_back_tyre_date'] ?? '', true);
     $html .= generateField('Passenger Back Tyre Shape', $data['passenger_back_tyre_shape'] ?? '', true);
     
     // Passenger Front Tyre
     $html .= generateField('Passenger Front Tyre Depth Check', $data['passenger_front_tyre_depth_check'] ?? '', true);
-    $html .= generateField('Passenger Front Tyre Manufacturing Date', $data['passenger_front_tyre_date'] ?? '', false);
+    $html .= generateField('Passenger Front Tyre Manufacturing Date', $data['passenger_front_tyre_date'] ?? '', true);
     $html .= generateField('Passenger Front Tyre Shape', $data['passenger_front_tyre_shape'] ?? '', true);
     
     // Stepney Tyre - Conditional display
@@ -503,7 +482,7 @@ function generateCompleteHTML($data) {
     
     // Only show these fields if Stepney is NOT "Stepney Not Available"
     if ($stepneyDepthCheck !== 'Stepney Not Available') {
-        $html .= generateField('Stepney Tyre Manufacturing Date', $data['stepney_tyre_date'] ?? '', false);
+        $html .= generateField('Stepney Tyre Manufacturing Date', $data['stepney_tyre_date'] ?? '', true);
         $html .= generateField('Stepney Front Tyre Shape', $data['stepney_tyre_shape'] ?? '', true);
     }
     
@@ -523,28 +502,28 @@ function generateCompleteHTML($data) {
     $html .= generateImageGrid($images);
     
     // ========================================================================
-    // STEP 14: Brakes
+    // STEP 15: Brakes
     // ========================================================================
     $html .= generateStepHeader(14, 'Brakes');
     
     $html .= generateField('Brake Pads Front Driver Side', $data['brake_pads_front_driver'] ?? '', true);
     $html .= generateField('Brake Discs Front Driver Side', $data['brake_discs_front_driver'] ?? '', true);
-    $html .= generateField('Brake Calipers Front Driver Side', $data['brake_calipers_front_driver'] ?? '', true);
+
     $html .= generateField('Brake Pads Front Passenger Side', $data['brake_pads_front_passenger'] ?? '', true);
     $html .= generateField('Brake Discs Front Passenger Side', $data['brake_discs_front_passenger'] ?? '', true);
-    $html .= generateField('Brake Calipers Front Passenger Side', $data['brake_calipers_front_passenger'] ?? '', true);
+
     $html .= generateField('Brake Pads Back Passenger Side', $data['brake_pads_back_passenger'] ?? '', true);
     $html .= generateField('Brake Discs Back Passenger Side', $data['brake_discs_back_passenger'] ?? '', true);
-    $html .= generateField('Brake Calipers Back Passenger Side', $data['brake_calipers_back_passenger'] ?? '', true);
+
     $html .= generateField('Brake Pads Back Driver Side', $data['brake_pads_back_driver'] ?? '', true);
     $html .= generateField('Brake Discs Back Driver Side', $data['brake_discs_back_driver'] ?? '', true);
-    $html .= generateField('Brake Calipers Back Driver Side', $data['brake_calipers_back_driver'] ?? '', true);
+
     $html .= generateField('Brake Fluid Reservoir', $data['brake_fluid_reservoir'] ?? '', true);
     $html .= generateField('Brake Fluid Cap', $data['brake_fluid_cap'] ?? '', true);
     $html .= generateField('Parking Hand Brake', $data['parking_hand_brake'] ?? '', true);
     
     // ========================================================================
-    // STEP 15: Suspension
+    // STEP 16: Suspension
     // ========================================================================
     $html .= generateStepHeader(15, 'Suspension');
     
@@ -556,7 +535,7 @@ function generateCompleteHTML($data) {
     $html .= generateField('Driver Side Shocker Leakage', $data['driver_side_shocker_leakage'] ?? '', true);
     
     // ========================================================================
-    // STEP 16: Under Body
+    // STEP 17: Under Body
     // ========================================================================
     $html .= generateStepHeader(16, 'Under Body');
     
@@ -577,19 +556,21 @@ function generateCompleteHTML($data) {
     $html .= generateImageGrid($images);
     
     // ========================================================================
-    // STEP 17: Equipments
+    // STEP 18: Equipments
     // ========================================================================
     $html .= generateStepHeader(17, 'Equipments');
     
     $html .= generateField('Tool Kit', $data['tool_kit'] ?? '', true);
     
-    // Tool Kit Image
-    $images = [];
-    $images[] = generateImage('Tool Kit Image', $data['tool_kit_image_path'] ?? '', true);
-    $html .= generateImageGrid($images);
+    // Tool Kit Image (only if Present is selected)
+    if (!empty($data['tool_kit_image_path']) && ($data['tool_kit'] ?? '') === 'Present') {
+        $images = [];
+        $images[] = generateImage('Tool Kit Image', $data['tool_kit_image_path'] ?? '', false);
+        $html .= generateImageGrid($images);
+    }
     
     // ========================================================================
-    // STEP 18: Car Images
+    // STEP 19: Car Images
     // ========================================================================
     $html .= generateStepHeader(18, 'Car Images');
     
@@ -603,38 +584,26 @@ function generateCompleteHTML($data) {
     $html .= generateImageGrid($images);
     
     // ========================================================================
-    // STEP 19: Final Result
+    // STEP 20: Final Result
     // ========================================================================
     $html .= generateStepHeader(19, 'Final Result');
     
     $html .= generateField('Any Issues Found in Car', $data['issues_found_in_car'] ?? '', true);
     
-    // Photo of Issues (if present)
-    if (!empty($data['photo_of_issues_path'])) {
-        $images = [];
-        $images[] = generateImage('Photo of Issues', $data['photo_of_issues_path'] ?? '', false);
-        $html .= generateImageGrid($images);
-    }
-    
-    // ========================================================================
-    // STEP 20: Payment Taking
-    // ========================================================================
-    $html .= generateStepHeader(20, 'Payment Taking');
-    
-    $html .= generateField('Payment', $data['payment_taken'] ?? '', true);
-    
-    // Show payment details if payment was taken
-    if (($data['payment_taken'] ?? '') === 'Yes') {
-        $html .= generateField('Payment Type', $data['payment_type'] ?? '', true);
-        $html .= generateField('Amount Paid', $data['amount_paid'] ?? '', true);
-        
-        // Show payment proof image if online payment
-        if (($data['payment_type'] ?? '') === 'Online') {
-            $images = [];
-            $images[] = generateImage('Payment Proof', $data['payment_proof_path'] ?? '', true);
-            $html .= generateImageGrid($images);
+    // Issue Photos (if present)
+    $issueImages = [];
+    for ($i = 1; $i <= 5; $i++) {
+        if (!empty($data["issue_photo_{$i}_path"])) {
+            $issueImages[] = generateImage("Issue Photo {$i}", $data["issue_photo_{$i}_path"] ?? '', false);
         }
     }
+    
+    if (!empty($issueImages)) {
+        $html .= generateImageGrid($issueImages);
+    }
+    
+
+
     
     $html .= generateFooter();
     

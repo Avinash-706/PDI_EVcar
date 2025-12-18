@@ -13,19 +13,25 @@ return [
             'expert_name' => ['label' => 'Assigned Expert Name', 'type' => 'text', 'required' => true],
             'expert_city' => ['label' => 'Inspection Expert City', 'type' => 'text', 'required' => true],
             'customer_name' => ['label' => 'Customer Name', 'type' => 'text', 'required' => true],
-            'customer_phone' => ['label' => 'Customer Phone Number', 'type' => 'text', 'required' => false],
-            'inspection_date' => ['label' => 'Date', 'type' => 'date', 'required' => true],
-            'inspection_time' => ['label' => 'Time', 'type' => 'time', 'required' => true],
-            'inspection_address' => ['label' => 'Inspection Address', 'type' => 'textarea', 'required' => true],
+            'customer_phone' => ['label' => 'Customer Phone Number', 'type' => 'text', 'required' => true],
             'obd_scanning' => ['label' => 'OBD Scanning', 'type' => 'radio', 'required' => true],
             'car' => ['label' => 'Car', 'type' => 'text', 'required' => false],
-            'lead_owner' => ['label' => 'Lead Owner', 'type' => 'text', 'required' => false],
-            'pending_amount' => ['label' => 'Pending Amount', 'type' => 'number', 'required' => false],
         ]
     ],
     
-    // STEP 2: Expert Details
+    // STEP 2: Payment Taking
     2 => [
+        'title' => 'Payment Taking',
+        'fields' => [
+            'payment_taken' => ['label' => 'Payment', 'type' => 'radio', 'required' => true],
+            'payment_type' => ['label' => 'Payment Type', 'type' => 'radio', 'required' => false],
+            'payment_proof' => ['label' => 'Payment Proof', 'type' => 'file', 'required' => false],
+            'amount_paid' => ['label' => 'Amount Paid', 'type' => 'number', 'required' => false],
+        ]
+    ],
+    
+    // STEP 3: Expert Details
+    3 => [
         'title' => 'Expert Details',
         'fields' => [
             'inspection_delayed' => ['label' => 'Inspection 45 Minutes Delayed?', 'type' => 'radio', 'required' => true],
@@ -38,14 +44,14 @@ return [
         ]
     ],
     
-    // STEP 3: Car Details
-    3 => [
+    // STEP 4: Car Details
+    4 => [
         'title' => 'Car Details',
         'fields' => [
             'car_company' => ['label' => 'Car Company', 'type' => 'text', 'required' => true],
             'car_variant' => ['label' => 'Car Variant', 'type' => 'text', 'required' => true],
             'car_registered_state' => ['label' => 'Car Registered State', 'type' => 'text', 'required' => true],
-            'car_registered_city' => ['label' => 'Car Registered City', 'type' => 'text', 'required' => false],
+
             'car_colour' => ['label' => 'Car Color', 'type' => 'text', 'required' => true],
             'car_km_reading' => ['label' => 'Car KM Current Reading', 'type' => 'text', 'required' => true],
             'car_km_photo' => ['label' => 'Car KM Reading Photo', 'type' => 'file', 'required' => true],
@@ -53,24 +59,6 @@ return [
             'chassis_number' => ['label' => 'Chassis Number', 'type' => 'text', 'required' => true],
             'engine_number' => ['label' => 'Engine Number', 'type' => 'text', 'required' => true],
             'chassis_plate_photo' => ['label' => 'Chassis No. Plate', 'type' => 'file', 'required' => true],
-        ]
-    ],
-    
-    // STEP 4: Car Documents
-    4 => [
-        'title' => 'Car Documents',
-        'fields' => [
-            'vehicle_insurance' => ['label' => 'Vehicle Insurance', 'type' => 'radio', 'required' => true],
-            'form_22' => ['label' => 'Form 22', 'type' => 'radio', 'required' => true],
-            'form_21' => ['label' => 'Form 21', 'type' => 'radio', 'required' => true],
-            'registration_certificate' => ['label' => 'Registration Certificate', 'type' => 'radio', 'required' => true],
-            'road_tax_receipt' => ['label' => 'Road Tax Receipt', 'type' => 'radio', 'required' => true],
-            'warranty_card' => ['label' => 'Warranty Card', 'type' => 'radio', 'required' => true],
-            'owners_manual' => ['label' => 'Owner\'s Manual', 'type' => 'radio', 'required' => true],
-            'service_booklet' => ['label' => 'Service Booklet', 'type' => 'radio', 'required' => true],
-            'bank_finance_noc' => ['label' => 'Bank finance NOC', 'type' => 'radio', 'required' => true],
-            'extended_warranty' => ['label' => 'Extended warranty', 'type' => 'radio', 'required' => true],
-            'accessories_invoice' => ['label' => 'Accessories Invoice', 'type' => 'radio', 'required' => true],
         ]
     ],
     
@@ -83,13 +71,9 @@ return [
             'driver_front_fender' => ['label' => 'Driver - Front Fender', 'type' => 'checkbox', 'required' => true, 'has_image' => true],
             // ... (48 more fields)
             'car_roof_outside' => ['label' => 'Car Roof Outside', 'type' => 'checkbox', 'required' => true, 'has_image' => true],
-            'passenger_rear_wheel_arch' => ['label' => 'Passenger - Rear Wheel Arch / Fender Lining', 'type' => 'checkbox', 'required' => true, 'has_image' => true],
-            'passenger_rear_cladding' => ['label' => 'Passenger - Rear Cladding', 'type' => 'checkbox', 'required' => true, 'has_image' => true],
-            'passenger_back_mud_flap' => ['label' => 'Passenger - Back Mud flap', 'type' => 'checkbox', 'required' => true, 'has_image' => true],
+
             'passenger_roof_rail' => ['label' => 'Passenger - Roof Rail', 'type' => 'checkbox', 'required' => true, 'has_image' => true],
-            'passenger_front_mud_flap' => ['label' => 'Passenger - Front Mud flap', 'type' => 'checkbox', 'required' => true, 'has_image' => true],
-            'passenger_front_wheel_arch' => ['label' => 'Passenger - Front Wheel Arch / Fender Lining', 'type' => 'checkbox', 'required' => true, 'has_image' => true],
-            'passenger_front_cladding' => ['label' => 'Passenger - Front Cladding', 'type' => 'checkbox', 'required' => true, 'has_image' => true],
+
             'front_bumper' => ['label' => 'Front Bumper', 'type' => 'checkbox', 'required' => true, 'has_image' => true],
         ]
     ],
@@ -107,7 +91,7 @@ return [
             'motor_coolant_level' => ['label' => 'Motor Coolant Level', 'type' => 'radio', 'required' => true],
             'motor' => ['label' => 'Motor', 'type' => 'radio', 'required' => true],
             'abnormal_motor_noise' => ['label' => 'Abnormal Motor Noise', 'type' => 'radio', 'required' => true],
-            'motor_manufacturing_date' => ['label' => 'Motor Manufacturing Date', 'type' => 'date', 'required' => false],
+
             'cables' => ['label' => 'Cables', 'type' => 'radio', 'required' => true],
             'fuse_box' => ['label' => 'Fuse Box', 'type' => 'radio', 'required' => true],
             'auxilliary_battery' => ['label' => 'Auxilliary Battery', 'type' => 'radio', 'required' => true],
@@ -122,21 +106,12 @@ return [
             'match_chassis_no_plate' => ['label' => 'Match Chassis No Plate with the Real Body', 'type' => 'checkbox', 'required' => true, 'has_image' => false],
             'driver_strut_tower_apron' => ['label' => 'Driver side Strut Tower Apron', 'type' => 'checkbox', 'required' => true, 'has_image' => true],
             'passenger_strut_tower_apron' => ['label' => 'Passenger Strut Tower Apron', 'type' => 'checkbox', 'required' => true, 'has_image' => true],
-            'driver_side_front_rail' => ['label' => 'Driver side Front Rail', 'type' => 'checkbox', 'required' => true, 'has_image' => true],
-            'passenger_side_front_rail' => ['label' => 'Passenger Side Front Rail', 'type' => 'checkbox', 'required' => true, 'has_image' => true],
+
             'front_bonnet_underbody' => ['label' => 'Front Bonnet UnderBody', 'type' => 'checkbox', 'required' => true, 'has_image' => true],
-            'driver_side_a_pillar' => ['label' => 'Driver Side A Pillar', 'type' => 'checkbox', 'required' => true, 'has_image' => true],
-            'driver_side_b_pillar' => ['label' => 'Driver Side B Pillar', 'type' => 'checkbox', 'required' => true, 'has_image' => true],
-            'driver_side_c_pillar' => ['label' => 'Driver Side C Pillar', 'type' => 'checkbox', 'required' => true, 'has_image' => true],
-            'driver_side_d_pillar' => ['label' => 'Driver Side D Pillar', 'type' => 'checkbox', 'required' => true, 'has_image' => true],
+
             'driver_side_running_board' => ['label' => 'Driver Side Running Board', 'type' => 'checkbox', 'required' => true, 'has_image' => true],
-            'boot_lock_pillar' => ['label' => 'Boot Lock Pillar', 'type' => 'checkbox', 'required' => true, 'has_image' => true],
-            'boot_floor' => ['label' => 'Boot Floor', 'type' => 'checkbox', 'required' => true, 'has_image' => true],
-            'rear_sub_frame_z_axle' => ['label' => 'Rear Sub Frame / Z Axle', 'type' => 'checkbox', 'required' => true, 'has_image' => true],
-            'passenger_side_d_pillar' => ['label' => 'Passenger Side D Pillar', 'type' => 'checkbox', 'required' => true, 'has_image' => true],
-            'passenger_side_c_pillar' => ['label' => 'Passenger Side C Pillar', 'type' => 'checkbox', 'required' => true, 'has_image' => true],
-            'passenger_side_b_pillar' => ['label' => 'Passenger Side B Pillar', 'type' => 'checkbox', 'required' => true, 'has_image' => true],
-            'passenger_side_a_pillar' => ['label' => 'Passenger Side A Pillar', 'type' => 'checkbox', 'required' => true, 'has_image' => true],
+
+
             'passenger_side_running_board' => ['label' => 'Passenger Side Running Board', 'type' => 'checkbox', 'required' => true, 'has_image' => true],
         ]
     ],
@@ -165,9 +140,7 @@ return [
             'steering_mountain_controls' => ['label' => 'Steering Mountain Controls', 'type' => 'radio', 'required' => true],
             'back_camera' => ['label' => 'Back Camera', 'type' => 'radio', 'required' => true],
             'reverse_parking_sensor' => ['label' => 'Reverse Parking Sensor', 'type' => 'radio', 'required' => true],
-            'multi_function_display' => ['label' => 'Multi Function Display', 'type' => 'radio', 'required' => true],
-            'multi_function_display_car_on' => ['label' => 'Multi Function Display (Car On)', 'type' => 'file', 'required' => true],
-            'multi_function_display_car_start' => ['label' => 'Multi Function Display (Car Start)', 'type' => 'file', 'required' => true],
+
             'car_horn' => ['label' => 'Car Horn', 'type' => 'radio', 'required' => true],
             'entertainment_system' => ['label' => 'Entertainment System', 'type' => 'radio', 'required' => true],
             'cruise_control' => ['label' => 'Cruise Control', 'type' => 'radio', 'required' => true],
@@ -230,8 +203,10 @@ return [
         'fields' => [
             'ac_turning_on' => ['label' => 'Air Conditioning Turning On', 'type' => 'radio', 'required' => true],
             'ac_cool_temperature' => ['label' => 'AC Cool Temperature', 'type' => 'text', 'required' => false],
+            'ac_cool_image' => ['label' => 'AC Cool Image', 'type' => 'file', 'required' => true],
             'ac_hot_temperature' => ['label' => 'AC Hot Temperature', 'type' => 'text', 'required' => false],
-            'ac_image' => ['label' => 'Air Condition Image at Fan Max Speed', 'type' => 'file', 'required' => false],
+            'ac_hot_image' => ['label' => 'AC Hot Image', 'type' => 'file', 'required' => true],
+
             'ac_direction_mode' => ['label' => 'Air Condition Direction Mode Working', 'type' => 'radio', 'required' => true],
             'defogger_front_vent' => ['label' => 'De Fogger Front Vent Working', 'type' => 'radio', 'required' => true],
             'defogger_rear_vent' => ['label' => 'De Fogger rear Vent Working', 'type' => 'radio', 'required' => true],
@@ -273,23 +248,23 @@ return [
             'rim_type' => ['label' => 'Rim Type', 'type' => 'radio', 'required' => true],
             'driver_front_tyre_depth_check' => ['label' => 'Driver Front Tyre Depth Check', 'type' => 'radio', 'required' => true],
             'driver_front_tyre_tread_depth' => ['label' => 'Driver Front Tyre Tread Depth', 'type' => 'file', 'required' => true],
-            'driver_front_tyre_date' => ['label' => 'Driver Front Tyre Manufacturing Date', 'type' => 'text', 'required' => false],
+            'driver_front_tyre_date' => ['label' => 'Driver Front Tyre Manufacturing Date', 'type' => 'text', 'required' => true],
             'driver_front_tyre_shape' => ['label' => 'Driver Front Tyre Shape', 'type' => 'radio', 'required' => true],
             'driver_back_tyre_depth_check' => ['label' => 'Driver Back Tyre Depth Check', 'type' => 'radio', 'required' => true],
             'driver_back_tyre_tread_depth' => ['label' => 'Driver Back Tyre Tread Depth', 'type' => 'file', 'required' => true],
-            'driver_back_tyre_date' => ['label' => 'Driver Back Tyre Manufacturing Date', 'type' => 'text', 'required' => false],
+            'driver_back_tyre_date' => ['label' => 'Driver Back Tyre Manufacturing Date', 'type' => 'text', 'required' => true],
             'driver_back_tyre_shape' => ['label' => 'Driver Back Tyre Shape', 'type' => 'radio', 'required' => true],
             'passenger_back_tyre_depth_check' => ['label' => 'Passenger Back Tyre Depth Check', 'type' => 'radio', 'required' => true],
             'passenger_back_tyre_tread_depth' => ['label' => 'Passenger Back Tyre Tread Depth', 'type' => 'file', 'required' => true],
-            'passenger_back_tyre_date' => ['label' => 'Passenger Back Tyre Manufacturing Date', 'type' => 'text', 'required' => false],
+            'passenger_back_tyre_date' => ['label' => 'Passenger Back Tyre Manufacturing Date', 'type' => 'text', 'required' => true],
             'passenger_back_tyre_shape' => ['label' => 'Passenger Back Tyre Shape', 'type' => 'radio', 'required' => true],
             'passenger_front_tyre_depth_check' => ['label' => 'Passenger Front Tyre Depth Check', 'type' => 'radio', 'required' => true],
             'passenger_front_tyre_tread_depth' => ['label' => 'Passenger Front Tyre Tread Depth', 'type' => 'file', 'required' => true],
-            'passenger_front_tyre_date' => ['label' => 'Passenger Front Tyre Manufacturing Date', 'type' => 'text', 'required' => false],
+            'passenger_front_tyre_date' => ['label' => 'Passenger Front Tyre Manufacturing Date', 'type' => 'text', 'required' => true],
             'passenger_front_tyre_shape' => ['label' => 'Passenger Front Tyre Shape', 'type' => 'radio', 'required' => true],
             'stepney_tyre_depth_check' => ['label' => 'Stepney Tyre Depth Check', 'type' => 'radio', 'required' => true],
             'stepney_tyre_tread_depth' => ['label' => 'Stepney Tyre Tread Depth', 'type' => 'file', 'required' => 'conditional'], // Required only if stepney_tyre_depth_check != "Stepney Not Available"
-            'stepney_tyre_date' => ['label' => 'Stepney Tyre Manufacturing Date', 'type' => 'text', 'required' => false],
+            'stepney_tyre_date' => ['label' => 'Stepney Tyre Manufacturing Date', 'type' => 'text', 'required' => true],
             'stepney_tyre_shape' => ['label' => 'Stepney Front Tyre Shape', 'type' => 'radio', 'required' => 'conditional'], // Required only if stepney_tyre_depth_check != "Stepney Not Available"
             'sign_of_camber_issue' => ['label' => 'Sign of Camber Issue', 'type' => 'radio', 'required' => true],
         ]
@@ -301,16 +276,16 @@ return [
         'fields' => [
             'brake_pads_front_driver' => ['label' => 'Brake Pads Front Driver Side', 'type' => 'radio', 'required' => true],
             'brake_discs_front_driver' => ['label' => 'Brake Discs Front Driver Side', 'type' => 'radio', 'required' => true],
-            'brake_calipers_front_driver' => ['label' => 'Brake Calipers Front Driver Side', 'type' => 'radio', 'required' => true],
+
             'brake_pads_front_passenger' => ['label' => 'Brake Pads Front Passenger Side', 'type' => 'radio', 'required' => true],
             'brake_discs_front_passenger' => ['label' => 'Brake Discs Front Passenger Side', 'type' => 'radio', 'required' => true],
-            'brake_calipers_front_passenger' => ['label' => 'Brake Calipers Front Passenger Side', 'type' => 'radio', 'required' => true],
+
             'brake_pads_back_passenger' => ['label' => 'Brake Pads Back Passenger Side', 'type' => 'radio', 'required' => true],
             'brake_discs_back_passenger' => ['label' => 'Brake Discs Back Passenger Side', 'type' => 'radio', 'required' => true],
-            'brake_calipers_back_passenger' => ['label' => 'Brake Calipers Back Passenger Side', 'type' => 'radio', 'required' => true],
+
             'brake_pads_back_driver' => ['label' => 'Brake Pads Back Driver Side', 'type' => 'radio', 'required' => true],
             'brake_discs_back_driver' => ['label' => 'Brake Discs Back Driver Side', 'type' => 'radio', 'required' => true],
-            'brake_calipers_back_driver' => ['label' => 'Brake Calipers Back Driver Side', 'type' => 'radio', 'required' => true],
+
             'brake_fluid_reservoir' => ['label' => 'Brake Fluid Reservoir', 'type' => 'radio', 'required' => true],
             'brake_fluid_cap' => ['label' => 'Brake Fluid Cap', 'type' => 'radio', 'required' => true],
             'parking_hand_brake' => ['label' => 'Parking Hand Brake', 'type' => 'radio', 'required' => true],
@@ -353,7 +328,7 @@ return [
         'title' => 'Equipments',
         'fields' => [
             'tool_kit' => ['label' => 'Tool Kit', 'type' => 'radio', 'required' => true],
-            'tool_kit_image' => ['label' => 'Tool Kit Image', 'type' => 'file', 'required' => true],
+            'tool_kit_image' => ['label' => 'Tool Kit Image', 'type' => 'file', 'required' => false],
         ]
     ],
     
@@ -374,18 +349,12 @@ return [
         'title' => 'Final Result',
         'fields' => [
             'issues_found_in_car' => ['label' => 'Any Issues Found in Car', 'type' => 'textarea', 'required' => true],
-            'photo_of_issues' => ['label' => 'Photo of Issues', 'type' => 'file', 'required' => false],
+            'issue_photo_1' => ['label' => 'Issue Photo 1', 'type' => 'file', 'required' => false],
+            'issue_photo_2' => ['label' => 'Issue Photo 2', 'type' => 'file', 'required' => false],
+            'issue_photo_3' => ['label' => 'Issue Photo 3', 'type' => 'file', 'required' => false],
+            'issue_photo_4' => ['label' => 'Issue Photo 4', 'type' => 'file', 'required' => false],
+            'issue_photo_5' => ['label' => 'Issue Photo 5', 'type' => 'file', 'required' => false],
         ]
     ],
-    
-    // STEP 20: Payment Taking
-    20 => [
-        'title' => 'Payment Taking',
-        'fields' => [
-            'payment_taken' => ['label' => 'Payment', 'type' => 'radio', 'required' => true],
-            'payment_type' => ['label' => 'Payment Type', 'type' => 'radio', 'required' => false],
-            'payment_proof' => ['label' => 'Payment Proof', 'type' => 'file', 'required' => false],
-            'amount_paid' => ['label' => 'Amount Paid', 'type' => 'number', 'required' => false],
-        ]
-    ],
+
 ];
